@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://Follower.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 449.641
+
+[node name="Follower" type="KinematicBody2D"]
+collision_layer = 0
+script = ExtResource( 2 )
+
+[node name="Collision" type="CollisionPolygon2D" parent="."]
+position = Vector2( 0, -24 )
+polygon = PoolVector2Array( -24, -8, -16, -24, 16, -24, 24, -8, 24, 24, -24, 24 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.329412, 1, 0.466667, 1 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, -32 )
+
+[node name="RayFrontWallRight" type="RayCast2D" parent="."]
+position = Vector2( 24, -16 )
+enabled = true
+cast_to = Vector2( 104, 0 )
+
+[node name="RayFrontGroundRight" type="RayCast2D" parent="."]
+position = Vector2( 39.98, 0 )
+enabled = true
+cast_to = Vector2( 0, 32 )
+
+[node name="RayFrontWallLeft" type="RayCast2D" parent="."]
+position = Vector2( -24, -16 )
+enabled = true
+cast_to = Vector2( -104, 0 )
+
+[node name="RayFrontGroundLeft" type="RayCast2D" parent="."]
+position = Vector2( -40, 0 )
+enabled = true
+cast_to = Vector2( 0, 32 )
+
+[node name="PlayerChecker" type="Area2D" parent="."]
+visible = false
+position = Vector2( 0, -24 )
+
+[node name="Collision" type="CollisionShape2D" parent="PlayerChecker"]
+shape = SubResource( 1 )
+
+[connection signal="body_exited" from="PlayerChecker" to="." method="_on_PlayerChecker_body_exited"]
